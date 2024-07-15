@@ -593,7 +593,7 @@ Test the application using a browser.
 | :--- | :--- |
 | podman ps | Display the running containers |
 | podman stop CONTAINER_ID |  Stop the container CONTAINER_ID |
-| podman ps | Display the running containers, including the stopped containers |
+| podman ps -a | Display the running containers, including the stopped containers |
 | podman rm CONTAINER_ID | Delete a container |
 
 ````cmd
