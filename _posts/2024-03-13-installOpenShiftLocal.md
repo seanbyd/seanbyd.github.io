@@ -47,7 +47,7 @@ The sizings I specified for the configuration is higher than the defaults for mu
 
 The first step is to download OpenShift Local. In my case I downloaded the Windows x86_64 installer.
 
-https://console.redhat.com/openshift/create/local
+[https://console.redhat.com/openshift/create/local](https://console.redhat.com/openshift/create/local)
 
 This requires you to create and log into a Red Hat account.
 

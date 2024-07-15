@@ -1,12 +1,12 @@
 # How to deploy an Open Liberty app to OpenShift Local
 
-This guide steps you through the process to deploy a basic [Open Liberty](https://openliberty.io/) app to [OpenShift Local](https://developers.redhat.com/products/openshift-local/overview) running on your PC.
+This guide steps you through the process of deploying a basic [Open Liberty](https://openliberty.io/) app to [OpenShift Local](https://developers.redhat.com/products/openshift-local/overview) running on your PC.
 
 ## Audience
 
 The audience of this guide is anyone having an interest to deploy their first Open Liberty app to OpenShift.
 
-While this guide installs to OpenShift Local on your PC, the same process can easily be followed when using a full installation of OpenShift.
+While this guide installs to OpenShift Local on your PC, the same process can be followed when using a full installation of OpenShift.
 
 The guide has been written with an admin in mind who may have little or no development experience. Me, I fit somewhere in-between.
 
@@ -34,9 +34,7 @@ This guide was completed using the following environment.
 
 For this exercise, I wrote a [basic servlet](https://github.com/seanbyd/LibertyToOpenShift) to deploy to OpenShift. The goal being to learn about deploying apps to OpenShift, rather than developing apps for running in OpenShift.
 
-You'll need this to complete this guide.
-
-## Deployment
+To complete this guide you need to download this sampe app.
 
 ### Download the sample project
 
@@ -54,7 +52,10 @@ Open a command window and change to the project directory.
 
 ````cmd
 cd /d c:/ocp/LibertyToOpenShift
+unzip LibertyToOpenShift-main.zip using a tool of your choice
 ````
+
+## Deployment
 
 ### Start OpenShift Local
 
@@ -117,7 +118,7 @@ crc start
 
 ### Prepare OC CLI
 
-To use the oc CLI you'll need to set some variables. If you miss this step, you'll receive errors later on.
+To use the OC CLI you'll need to set some variables. If you miss this step, you'll receive errors later on.
 
 ````cmd
 @FOR /f "tokens=*" %i IN ('crc oc-env') DO @call %i
@@ -584,7 +585,7 @@ curl -vk http://localhost:9080
 
 Test the application using a browser.
 
-http://localhost:9080
+[http://localhost:9080](http://localhost:9080)
 
 ### Stop the running container
 
@@ -629,7 +630,7 @@ Push the image to the OpenShift internal repository.
 
 #### Set OC CLI variables
 
-Before proceeding, ensure you have set the oc CLI variables. You don't know how many times I missed this only to encounter frustrating problems.
+Before proceeding, ensure you have set the OC CLI variables. You don't know how many times I missed this only to encounter frustrating problems.
 
 ````cmd
 crc podman-env
@@ -803,7 +804,7 @@ podman push default-route-openshift-image-registry.apps-crc.testing/liberty-to-o
 
 Possible problems:
 
-- Error: trying to reuse blob sha256:ecf6a89969f55913ddb3946ec16ae6f081ea6da1bbbdd9405acc637c25409b91 at destination: unable to retrieve auth token: invalid username/password: authentication required
+- **Error: trying to reuse blob** sha256:ecf6a89969f55913ddb3946ec16ae6f081ea6da1bbbdd9405acc637c25409b91 at destination: unable to retrieve auth token: invalid username/password: authentication required
 
     Issue the following to resolve the problem
     ````cmd
@@ -811,7 +812,7 @@ Possible problems:
     @FOR /f "tokens=*" %i IN ('crc podman-env') DO @call %i
     ````
 
-- Error: trying to reuse blob sha256:ecf6a89969f55913ddb3946ec16ae6f081ea6da1bbbdd9405acc637c25409b91 at destination: unable to retrieve auth token: invalid username/password: authentication required
+- **Error: trying to reuse blob** sha256:ecf6a89969f55913ddb3946ec16ae6f081ea6da1bbbdd9405acc637c25409b91 at destination: unable to retrieve auth token: invalid username/password: authentication required
 
     Issue the following to resolve the problem
 
@@ -821,9 +822,9 @@ Possible problems:
 
 ### Check the image in OpenShift
 
-#### Find pushed image
+#### Find the pushed image
 
-Either issue the following oc CLI command or log into OpenShift to verify the image has been pushed successfully.
+Either issue the following OC CLI command or log into OpenShift to verify the image has been pushed successfully.
 
 ````cmd
 oc get imagestream
@@ -1059,7 +1060,7 @@ curl -vk http://liberty-to-openshift-liberty-to-openshift.apps-crc.testing
 
 ### Browse the app using a browser
 
-http://liberty-to-openshift-liberty-to-openshift.apps-crc.testing
+[http://liberty-to-openshift-liberty-to-openshift.apps-crc.testing](http://liberty-to-openshift-liberty-to-openshift.apps-crc.testing)
 
 ### Access the app from OpenShift
 
