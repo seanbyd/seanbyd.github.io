@@ -4,12 +4,10 @@ This post contains a list of OpenShift Local commands I've used.
 
 | Command | Help | Examples |
 | :--- | :--- | :--- |
-**PROJECT COMMANDS**
 | oc projects | List all projects you have access to, including the project you are connected to | oc projects |
 | oc project | Display the project you are connected to | oc project |
 | oc project PROJECT_NAME | Select the project named PROJECT_NAME | oc project liberty-to-openshift |
 | oc new-project NEW_PROJECT_NAME | Create a new project named NEW_PROJECT_NAME | oc new-project liberty-to-openshift |
-**POD/IMAGE COMMANDS**
 | oc registry info | Retrieve the OpneShift registry details where the image will be pushed | oc registry info |
 | oc get imagestream<br>oc get is | List the OpenShift images | oc get imagestream |
 | oc apply -f file DEPLOY_YAML | Deploy the app using the contents of the DEPLOY_YAML file | oc apply -f deploy.yaml |
@@ -21,7 +19,6 @@ This post contains a list of OpenShift Local commands I've used.
 | oc describe route ROUTE_NAME | Display the details of the route named ROUTE_NAME | oc describe route liberty-to-openshift |
 | oc get services | List the OpenShift services | oc get services |
 | oc describe service SERVICE_NAME | Display the details of the service named SERVICE_NAME | oc describe service liberty-to-openshift |
-**TEAR DOWN PROJECT**
 | oc delete -f deploy.yaml | Delete the deployed OpenShift application | oc delete -f deploy.yaml |
 | oc delete imagestream/IMAGE_NAME | Delete the OpenShift image | oc delete imagestream/liberty-to-openshift |
 | oc delete project PROJECT_NAME | Delete the OpenShift project | oc delete project liberty-to-openshift |

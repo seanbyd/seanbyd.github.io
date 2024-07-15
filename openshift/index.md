@@ -10,3 +10,5 @@ This page contains posts around OpenShift.
 [Install OpenShift Local](../_posts/2024-03-13-installOpenShiftLocal.md)
 
 [Deploy an Open Liberty app to OpenShift Local](../_posts/2024-07-10-deploy-an-open-liberty-app-to-openshift-local.md)
+
+[Errors](../_posts/2024-07-15-openshift-errors.md)
