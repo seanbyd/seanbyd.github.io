@@ -1,0 +1,13 @@
+name: The chalk board
+title: The chalk board
+theme: minima
+defaults:
+plugins:
+  - jekyll-relative-links
+relative_links:
+  enabled: true
+  collections: true
+include:
+ - 2024-03-01-enabledCiphersJava8ToJava17.md
+atom_feed:
+  hide: true
