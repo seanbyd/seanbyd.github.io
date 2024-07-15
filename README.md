@@ -1,12 +1,12 @@
 Welcome to my **Info Center**.
 
-Here is a collection of posts of various topics ranging from how-to's, to what I call "cheats" that I have found useful over the years, or anything else I have found.
+This site contains a collection of posts covering topics such as how-to's, cheat sheets, and anything else I've found useful.
 
-Hopefully it can address some of the most frustrating parts of searching for problems, where many posted questions end in silence, dead-ends, with no solution to be found.
+Hopefully the posts address some of the more frustrating parts of searching for problems, where many posted questions end in silence, dead-ends, with no solution to be found.
 
 # Focus
 
-The focus of this site will grow over time, but for now contains details surrounding IBM WebSphere Application Server, Open Liberty/WebSphere Liberty, IBM MQ and more recently OpenShift.
+The focus of this site will change over time, but for now it contains details surrounding IBM WebSphere Application Server, Open Liberty/WebSphere Liberty, IBM MQ and more recently OpenShift.
 
 # Products
 
