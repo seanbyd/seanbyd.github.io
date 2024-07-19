@@ -16,7 +16,7 @@ For this exercise you need to:
 
 - [Install OpenShift Local](https://thechalkboards.com/install-openshift-local-to-my-windows-pc/) to your PC.
 
-- While not mandatory, it is recommened to download **git** and **github desktop**. You can happily complete this guide by ignoring this step.
+- While not mandatory, it is recommended to download **git** and **github desktop**. You can happily complete this guide by ignoring this step.
 
 
 ## Environment
@@ -27,14 +27,14 @@ This guide was completed using the following environment.
 | Category | Version  | URL |
 | :--- | :--- | :--- |
 | OpenShift Local | **crc version**<br>CRC version: 2.33.0+c43b17<br>OpenShift version: 4.14.12<br>Podman version: 4.4.4 | [https://seanbyd.github.io/2024/03/13/installOpenShiftLocal.html](https://seanbyd.github.io/2024/03/13/installOpenShiftLocal.html) |
-| Open Liberty  | 24.0.0.2<br>All GA featues:<br>openliberty-24.0.0.2.zip | [https://openliberty.io/start/](https://openliberty.io/start/) |
+| Open Liberty  | 24.0.0.2<br>All GA features:<br>openliberty-24.0.0.2.zip | [https://openliberty.io/start/](https://openliberty.io/start/) |
 | Java  | IBM Semeru Java 17<br>ibm-semeru-open-jdk_x64_windows_17.0.8.1_1_openj9-0.40.0.zip | [https://developer.ibm.com/languages/java/semeru-runtimes/downloads/](https://developer.ibm.com/languages/java/semeru-runtimes/downloads/) |
 
 ## Sample app
 
 For this exercise, I wrote a [basic servlet](https://github.com/seanbyd/LibertyToOpenShift) to deploy to OpenShift. The goal being to learn about deploying apps to OpenShift, rather than developing apps for running in OpenShift.
 
-To complete this guide you need to download this sampe app.
+To complete this guide you need to download this sample app.
 
 ### Download the sample project
 
@@ -42,7 +42,7 @@ Download the [sample project](https://github.com/seanbyd/LibertyToOpenShift) fro
 
 You can [clone the project](https://github.com/seanbyd/LibertyToOpenShift.git) using git or github desktop.
 
-Alternatively you can download the [zip file](https://github.com/seanbyd/LibertyToOpenShift/archive/refs/heads/main.zip). Unzip to a location of your choice. For the non-developers, or those not experienced with git and github, I have followed this approch.
+Alternatively you can download the [zip file](https://github.com/seanbyd/LibertyToOpenShift/archive/refs/heads/main.zip). Unzip to a location of your choice. For the non-developers, or those not experienced with git and github, I have followed this approach.
 
 ### Unzip the sample project
 
@@ -192,7 +192,7 @@ podman rmi 11e9b7915530 --force
 
 Use podman to build the image.
 
-If the image *icr.io/appcafe/open-liberty:kernel-slim-java17-openj9-ubi* has not already been dowloaded, it will be automatically downloaded for you.
+If the image *icr.io/appcafe/open-liberty:kernel-slim-java17-openj9-ubi* has not already been downloaded, it will be automatically downloaded for you.
 
 Ensure you are in the correct directory containing the file *Containerfile.olp.slim.java17*.
 
@@ -687,6 +687,8 @@ If the project does not exist, create it as follows.
 | :--- | :--- |
 | oc new-project NEW_PROJECT_NAME | Create a new project named NEW_PROJECT_NAME |
 | oc project | Display the project you are connected to |
+| oc project PROJECT_NAME | Switch to the project named PROJECT_NAME |
+| oc projects | Display all projects you have access to |
 
 ````cmd
 oc new-project liberty-to-openshift
@@ -708,49 +710,33 @@ oc project
     c:\ocp\LibertyToOpenShift>oc project
     Using project "liberty-to-openshift" on server "https://api.crc.testing:6443".
 
-#### Some other handy commands
-
-| Command| Help |
-| :--- | :--- |
-| oc projects | List all projects you have access to |
-| oc project YOUR_PROJECT_NAME | Switch the the specified project |
-
-````cmd
-oc projects
-oc project liberty-to-openshift
-````
-
-Identify the registry where the image will be pushed.
-
-| Command| Help |
-| :--- | :--- |
-| oc registry info | Get the OpenShift registry info where the image will be pushed |
-
 #### Tag the image
 
 | Command| Help |
 | :--- | :--- |
-| oc registry info | Retrieve the OpneShift registry details where the image will be pushed |
+| oc registry info | Retrieve the OpenShift registry details where the image will be pushed |
+| podman tag REPOSITORY:TAG OC_REGISTRY_INFO/PROJECT_NAME/REPOSITORY:TAG | Tag the image to the OpenShift registry |
+
+Identify the registry where the image will be pushed.
 
 ````cmd
 oc registry info
 ````
 
-    c:\ocp\LibertyToOpenShift>oc registry info
-    default-route-openshift-image-registry.apps-crc.testing
-
 Tag the image pointing to the registry.
 
-| Command| Help |
-| :--- | :--- |
-| podman tag REPOSITORY:TAG OC_REGISTRY_INFO/PROJECT_NAME/REPOSITORY:TAG | Tag the image to the OpenShift registry |
+````cmd
+podman tag liberty-to-openshift:olp-java17-1.0 default-route-openshift-image-registry.apps-crc.testing/liberty-to-openshift/liberty-to-openshift:olp-java17-1.0
+````
+
+View the tagged image.
 
 ````cmd
 podman images
-podman project
-podman tag liberty-to-openshift:olp-java17-1.0 default-route-openshift-image-registry.apps-crc.testing/liberty-to-openshift/liberty-to-openshift:olp-java17-1.0
-podman images
 ````
+
+    c:\ocp\LibertyToOpenShift>oc registry info
+    default-route-openshift-image-registry.apps-crc.testing
 
     c:\ocp\LibertyToOpenShift>podman images
     REPOSITORY                      TAG                            IMAGE ID      CREATED        SIZE
