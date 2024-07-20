@@ -996,7 +996,11 @@ curl -vk http://localhost:9080
     * Closing connection
     curl: (7) Failed to connect to localhost port 9080 after 2247 ms: Couldn't connect to server
 
-For OpenShift you need to access the URL using the OpenShift route. This route and it's associated OpenShift service was created when issuing the "oc apply -f deploy.yaml" command.
+### Use curl to access the app - correct way
+
+For OpenShift you need to access the URL using the OpenShift route. 
+
+The command "oc apply -f deploy.yaml" creates the OpenShift route and service. These are used to access the application
 
 Find the route to the running pod.
 
@@ -1007,8 +1011,6 @@ oc get routes
 c:\ocp\LibertyToOpenShift>oc get routes
 NAME                   HOST/PORT                                                    PATH   SERVICES               PORT    TERMINATION   WILDCARD
 liberty-to-openshift   liberty-to-openshift-liberty-to-openshift.apps-crc.testing          liberty-to-openshift   <all>                 None
-
-### Use curl to access the app - correct way
 
 ````cmd
 curl -vk http://liberty-to-openshift-liberty-to-openshift.apps-crc.testing
@@ -1046,7 +1048,13 @@ curl -vk http://liberty-to-openshift-liberty-to-openshift.apps-crc.testing
 
 ### Browse the app using a browser
 
+Open a browser of your choice and paste the below URL.
+
 [http://liberty-to-openshift-liberty-to-openshift.apps-crc.testing](http://liberty-to-openshift-liberty-to-openshift.apps-crc.testing)
+
+or if you have enables HTTPS from a later step, use
+
+[https://liberty-to-openshift-liberty-to-openshift.apps-crc.testing](https://liberty-to-openshift-liberty-to-openshift.apps-crc.testing)
 
 ### Access the app from OpenShift
 
@@ -1238,6 +1246,7 @@ oc project liberty-to-openshift
 ### Delete the deployment including the service and route
 
 ````cmd
+cd /d c:\ocp\LibertyToOpenShift
 oc delete -f deploy.yaml
 ````
 
