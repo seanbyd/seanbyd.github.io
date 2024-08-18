@@ -552,7 +552,9 @@ podman ps
     [root@localhost LibertyToOpenShiftInstantOn]# podman ps
     CONTAINER ID  IMAGE       COMMAND     CREATED     STATUS      PORTS       NAMES
 
-Run the command with the missing parameters.
+#### Start the podman container with the mandatory parameters
+
+Run the command with the required parameters.
 
 ````cmd
 podman run -d --name liberty-to-openshift-instanton --cap-add=CHECKPOINT_RESTORE --cap-add=SETPCAP --security-opt seccomp=unconfined  -p 9080:9080 liberty-to-openshift-instanton:olp-java17-1.0
@@ -596,7 +598,7 @@ podman ps
     CONTAINER ID  IMAGE                                                    COMMAND               CREATED        STATUS        PORTS                   NAMES
     85a664df916b  localhost/liberty-to-openshift-instanton:olp-java17-1.0  /opt/ol/wlp/bin/s...  2 minutes ago  Up 2 minutes  0.0.0.0:9080->9080/tcp  liberty-to-openshift-instanton
 
-Check the logs.
+#### Check the logs
 
 ````cmd
 podman logs liberty-to-openshift-instanton
@@ -749,11 +751,11 @@ podman rm liberty-to-openshift-instanton
 
 Push the image to the OpenShift internal registry.
 
-#### When using VMWARE on Windows
+#### When using VMware on Windows
 
-In my test lab I am running OpenShift Local on my Windows PC while building the Open Liberty InstantOn image on RHEL 9 running under VMWARE.
+In my test lab I am running OpenShift Local on my Windows PC while building the Open Liberty InstantOn image on RHEL 9 running under VMware.
 
-To push to openShift Local I need to save the podman image, FTP from the VM to my PC and load the image using podman on Windows.
+To push to OpenShift Local I need to save the podman image, FTP from the VM to my PC, and load the image using podman on Windows.
 
 If you are using Linux and OpenShift, you can skip this step.
 
@@ -822,7 +824,7 @@ ls -l
     total 779708
     -rw-r--r--. 1 root root 798417408 Aug 13 22:35 liberty-to-openshift-instanton_olp-java17-1.0.tar
 
-FTP the image to your PC in the directory of your choice. Im my case I used the following.
+FTP the image to your PC in the directory of your choice.
 
 Open a Windows command window
 
@@ -832,7 +834,7 @@ mkdir images
 cd /d c:\ocp\images
 ````
 
-    D:\Dev\Git\Liberty\LibertyToOpenShiftInstantOn\LibertyToOpenShiftInstantOn>cd /d c:/ocp/
+    c:\ocp\LibertyToOpenShiftInstantOn>cd /d c:/ocp/
 
     c:\ocp>mkdir images
 
@@ -840,15 +842,12 @@ cd /d c:\ocp\images
 
     c:\ocp\images>dir
     Volume in drive C is Windows
-    Volume Serial Number is 4222-45E0
 
     Directory of c:\ocp\images
 
     08/13/2024  10:38 PM    <DIR>          .
     08/13/2024  10:37 PM    <DIR>          ..
     08/13/2024  10:35 PM       798,417,408 liberty-to-openshift-instanton_olp-java17-1.0.tar
-                1 File(s)    798,417,408 bytes
-                2 Dir(s)  434,508,279,808 bytes free
 
 Check the images
 
@@ -858,7 +857,6 @@ podman images
 
     c:\ocp\images>podman images
     REPOSITORY                   TAG                            IMAGE ID      CREATED       SIZE
-    icr.io/appcafe/open-liberty  kernel-slim-java17-openj9-ubi  385d889567ef  5 months ago  688 MB
 
 Load the image from your Windows command window.
 
@@ -873,8 +871,6 @@ podman images
     c:\ocp\images>podman images
     REPOSITORY                   TAG                            IMAGE ID      CREATED         SIZE
     <none>                       <none>                         dea88bde62d4  38 minutes ago  798 MB
-    localhost/liberty-to-openshift            olp-java17-1.0                 e03048676c90  5 weeks ago    740 MB
-    icr.io/appcafe/open-liberty  kernel-slim-java17-openj9-ubi  385d889567ef  5 months ago    688 MB
 
 Tag the image.
 
@@ -888,8 +884,6 @@ podman images
     c:\ocp\images>podman images
     REPOSITORY                                TAG                            IMAGE ID      CREATED         SIZE
     localhost/liberty-to-openshift-instanton  olp-java17-1.0                 dea88bde62d4  42 minutes ago  798 MB
-    localhost/liberty-to-openshift            olp-java17-1.0                 e03048676c90  5 weeks ago    740 MB
-    icr.io/appcafe/open-liberty               kernel-slim-java17-openj9-ubi  385d889567ef  5 months ago    688 MB
 
 Now you are ready to push the image to OpenShift Local.
 
@@ -913,6 +907,12 @@ crc podman-env
     c:\ocp\images>@FOR /f "tokens=*" %i IN ('crc podman-env') DO @call %i
 
 #### Login to OpenShift
+
+Change back to the InstantOn directory.
+
+````cmd
+cd /d C:\ocp\LibertyToOpenShiftInstantOn
+````
 
 Log into OpenShift using the developer user. The password is developer.
 
@@ -950,7 +950,6 @@ oc project liberty-to-openshift-instanton
 
         guide
     * liberty-to-openshift
-        liberty-to-openshift-instanton
 
     Using project "liberty-to-openshift" on server "https://api.crc.testing:6443".
 
@@ -1003,7 +1002,7 @@ oc projects
 
 *Optional read*
 
-You can optionally read or skip this section. Your choice. This section covers a problem I've faced on numerous occasions while I was learning, that lead to much frustration.
+You can optionally read or skip this section. Your choice. This section covers a problem I've faced on numerous occasions while I was learning - this led to much frustration.
 
 It is important that you set the "crc podman-env" properly before continuing. Not doing so may lead to probelms when pushing the image to the OpenShift Local internal registry.
 
@@ -1015,14 +1014,14 @@ List the current images.
 podman images
 ````
 
-c:\ocp\LibertyToOpenShiftInstantOn>podman images
-REPOSITORY                                                                                                             TAG                            IMAGE ID      CREATED        SIZE
-localhost/liberty-to-openshift-instanton                                                                               olp-java17-1.0                 dea88bde62d4  2 days ago     798 MB
-default-route-openshift-image-registry.apps-crc.testing/liberty-to-openshift-instanton/liberty-to-openshift-instanton  olp-java17-1.0                 dea88bde62d4  2 days ago     798 MB
-<none>                                                                                                                 <none>                         3bb93545eaac  3 days ago     741 MB
-localhost/liberty-to-openshift                                                                                         olp-java17-1.0                 e03048676c90  5 weeks ago    740 MB
-icr.io/appcafe/open-liberty                                                                                            kernel-slim-java17-openj9-ubi  b5cc5094dd1f  7 weeks ago    690 MB
-icr.io/ibm-messaging/mq                                                                                                latest                         9e0011332935  11 months ago  1.62 GB
+    c:\ocp\LibertyToOpenShiftInstantOn>podman images
+    REPOSITORY                                                                                                             TAG                            IMAGE ID      CREATED        SIZE
+    localhost/liberty-to-openshift-instanton                                                                               olp-java17-1.0                 dea88bde62d4  2 days ago     798 MB
+    default-route-openshift-image-registry.apps-crc.testing/liberty-to-openshift-instanton/liberty-to-openshift-instanton  olp-java17-1.0                 dea88bde62d4  2 days ago     798 MB
+    <none>                                                                                                                 <none>                         3bb93545eaac  3 days ago     741 MB
+    localhost/liberty-to-openshift                                                                                         olp-java17-1.0                 e03048676c90  5 weeks ago    740 MB
+    icr.io/appcafe/open-liberty                                                                                            kernel-slim-java17-openj9-ubi  b5cc5094dd1f  7 weeks ago    690 MB
+    icr.io/ibm-messaging/mq                                                                                                latest                         9e0011332935  11 months ago  1.62 GB
 
 As can be seen, I have a number of images from previous testing, including an image tagged to the OpenShift Local internal registry.
 
@@ -1042,100 +1041,100 @@ Now try to push the image.
 podman push default-route-openshift-image-registry.apps-crc.testing/liberty-to-openshift-instanton/liberty-to-openshift-instanton:olp-java17-1.0
 ````
 
-c:\ocp\LibertyToOpenShiftInstantOn>podman push default-route-openshift-image-registry.apps-crc.testing/liberty-to-openshift-instanton/liberty-to-openshift-instanton:olp-java17-1.0
-Getting image source signatures
-Copying blob sha256:3fe103da66fa70dba2988aeee5622af89f139b9dc25f56264a23f265d6b963b9
-Copying blob sha256:38fbe8c222cd3c5bf55c0f4e58bbb09beca4c1b87586b40953d697995a05b608
-Copying blob sha256:ecf6a89969f55913ddb3946ec16ae6f081ea6da1bbbdd9405acc637c25409b91
-Copying blob sha256:a0395d30313e17d544847ae4cef4328527ee69acaa49ce9b392278cd7f993195
-Copying blob sha256:28514f1c36dfaab17b64bafe50b81674eb26d1bd4d3a77b3e41fa845aaa6de47
-Copying blob sha256:5072c9ed8ec7c16b80e415f16abf0b3e2790f56a9b2fd056a7f1fdc57d890484
-Copying blob sha256:b81c520caa506161480e54309c78d231316ef7d8d9f678f9156dffb6a29dc6f2
-Copying blob sha256:9d2028e22db09545171d5e599b1783a20bffb0f111951ad7c3b28fd406a99c93
-Copying blob sha256:74a1e6f67ecb6df52be3a1bb0171c02a3ae877ece96fc8fa29569bcfafd2a7eb
-Copying blob sha256:78d820be1a244529c6168f3aceaf86bfff3b7b7b70298cfc38e1035cb3ccfcb6
-Copying blob sha256:a037803dd8e9658a1dde19a4912df955f04c5cbff5edfc6a00a72897c54a9f32
-Copying blob sha256:89d6feb548fc2d8a0944d2520aa8b4dde3133e600f2b83791972a29f898727c8
-Copying blob sha256:715790d78398c7eeddcc5ba1a63a81a2afbcbf56e1f56ebeef159a9614a17fe3
-Copying blob sha256:2c39fedc4e1e5004c6f279d7a08ac1d9df8d1e3a873af9fd89f0ddd70d15ad9c
-Copying blob sha256:b90f8f8be268b24e0d9551aacf17025a9e5efa2283c23f5e741edbf1cf06fd37
-Copying blob sha256:c7430cd06acc6fd0bb2e2e07079ad589b82f8c6d4921d1a05d4c7a97723b211e
-Copying blob sha256:663d6c6c1533ec21d318030d64f347237b5f4c94b8fdc09d8e87fa1ce77961fb
-Copying blob sha256:c65df4ffdbfd663bef1dee404651465c96a78e04516a06320d207577a7e4ac56
-Copying blob sha256:2db68336d1b7d07f8e00774fe81a89d6c91327c43c141c4af5e119869c41d41f
-Copying blob sha256:1d4516f977329d6cd15482f25c26c4079d35404b6a20d34f532b579e0ff2642b
-Copying blob sha256:a5a133c1a5fc6e3f4c73c2857ddcb7b52cb3857134667b6d839046aed76c8f51
-Copying blob sha256:56e3ad214bcdca7ebc7d8c62d8d2926b45546ba3a85b74ae47d4682f3baeb1f7
-Getting image source signatures
-Copying blob sha256:3fe103da66fa70dba2988aeee5622af89f139b9dc25f56264a23f265d6b963b9
-Copying blob sha256:38fbe8c222cd3c5bf55c0f4e58bbb09beca4c1b87586b40953d697995a05b608
-Copying blob sha256:a0395d30313e17d544847ae4cef4328527ee69acaa49ce9b392278cd7f993195
-Copying blob sha256:ecf6a89969f55913ddb3946ec16ae6f081ea6da1bbbdd9405acc637c25409b91
-Copying blob sha256:28514f1c36dfaab17b64bafe50b81674eb26d1bd4d3a77b3e41fa845aaa6de47
-Copying blob sha256:5072c9ed8ec7c16b80e415f16abf0b3e2790f56a9b2fd056a7f1fdc57d890484
-Copying blob sha256:b81c520caa506161480e54309c78d231316ef7d8d9f678f9156dffb6a29dc6f2
-Copying blob sha256:9d2028e22db09545171d5e599b1783a20bffb0f111951ad7c3b28fd406a99c93
-Copying blob sha256:89d6feb548fc2d8a0944d2520aa8b4dde3133e600f2b83791972a29f898727c8
-Copying blob sha256:a037803dd8e9658a1dde19a4912df955f04c5cbff5edfc6a00a72897c54a9f32
-Copying blob sha256:715790d78398c7eeddcc5ba1a63a81a2afbcbf56e1f56ebeef159a9614a17fe3
-Copying blob sha256:78d820be1a244529c6168f3aceaf86bfff3b7b7b70298cfc38e1035cb3ccfcb6
-Copying blob sha256:74a1e6f67ecb6df52be3a1bb0171c02a3ae877ece96fc8fa29569bcfafd2a7eb
-Copying blob sha256:2c39fedc4e1e5004c6f279d7a08ac1d9df8d1e3a873af9fd89f0ddd70d15ad9c
-Copying blob sha256:b90f8f8be268b24e0d9551aacf17025a9e5efa2283c23f5e741edbf1cf06fd37
-Copying blob sha256:c7430cd06acc6fd0bb2e2e07079ad589b82f8c6d4921d1a05d4c7a97723b211e
-Copying blob sha256:663d6c6c1533ec21d318030d64f347237b5f4c94b8fdc09d8e87fa1ce77961fb
-Copying blob sha256:2db68336d1b7d07f8e00774fe81a89d6c91327c43c141c4af5e119869c41d41f
-Copying blob sha256:c65df4ffdbfd663bef1dee404651465c96a78e04516a06320d207577a7e4ac56
-Copying blob sha256:1d4516f977329d6cd15482f25c26c4079d35404b6a20d34f532b579e0ff2642b
-Copying blob sha256:a5a133c1a5fc6e3f4c73c2857ddcb7b52cb3857134667b6d839046aed76c8f51
-Copying blob sha256:56e3ad214bcdca7ebc7d8c62d8d2926b45546ba3a85b74ae47d4682f3baeb1f7
-Getting image source signatures
-Copying blob sha256:3fe103da66fa70dba2988aeee5622af89f139b9dc25f56264a23f265d6b963b9
-Copying blob sha256:38fbe8c222cd3c5bf55c0f4e58bbb09beca4c1b87586b40953d697995a05b608
-Copying blob sha256:ecf6a89969f55913ddb3946ec16ae6f081ea6da1bbbdd9405acc637c25409b91
-Copying blob sha256:a0395d30313e17d544847ae4cef4328527ee69acaa49ce9b392278cd7f993195
-Copying blob sha256:5072c9ed8ec7c16b80e415f16abf0b3e2790f56a9b2fd056a7f1fdc57d890484
-Copying blob sha256:28514f1c36dfaab17b64bafe50b81674eb26d1bd4d3a77b3e41fa845aaa6de47
-Copying blob sha256:b81c520caa506161480e54309c78d231316ef7d8d9f678f9156dffb6a29dc6f2
-Copying blob sha256:9d2028e22db09545171d5e599b1783a20bffb0f111951ad7c3b28fd406a99c93
-Copying blob sha256:78d820be1a244529c6168f3aceaf86bfff3b7b7b70298cfc38e1035cb3ccfcb6
-Copying blob sha256:74a1e6f67ecb6df52be3a1bb0171c02a3ae877ece96fc8fa29569bcfafd2a7eb
-Copying blob sha256:715790d78398c7eeddcc5ba1a63a81a2afbcbf56e1f56ebeef159a9614a17fe3
-Copying blob sha256:2c39fedc4e1e5004c6f279d7a08ac1d9df8d1e3a873af9fd89f0ddd70d15ad9c
-Copying blob sha256:a037803dd8e9658a1dde19a4912df955f04c5cbff5edfc6a00a72897c54a9f32
-Copying blob sha256:89d6feb548fc2d8a0944d2520aa8b4dde3133e600f2b83791972a29f898727c8
-Copying blob sha256:c65df4ffdbfd663bef1dee404651465c96a78e04516a06320d207577a7e4ac56
-Copying blob sha256:663d6c6c1533ec21d318030d64f347237b5f4c94b8fdc09d8e87fa1ce77961fb
-Copying blob sha256:2db68336d1b7d07f8e00774fe81a89d6c91327c43c141c4af5e119869c41d41f
-Copying blob sha256:b90f8f8be268b24e0d9551aacf17025a9e5efa2283c23f5e741edbf1cf06fd37
-Copying blob sha256:1d4516f977329d6cd15482f25c26c4079d35404b6a20d34f532b579e0ff2642b
-Copying blob sha256:c7430cd06acc6fd0bb2e2e07079ad589b82f8c6d4921d1a05d4c7a97723b211e
-Copying blob sha256:a5a133c1a5fc6e3f4c73c2857ddcb7b52cb3857134667b6d839046aed76c8f51
-Copying blob sha256:56e3ad214bcdca7ebc7d8c62d8d2926b45546ba3a85b74ae47d4682f3baeb1f7
-Getting image source signatures
-Copying blob sha256:38fbe8c222cd3c5bf55c0f4e58bbb09beca4c1b87586b40953d697995a05b608
-Copying blob sha256:a0395d30313e17d544847ae4cef4328527ee69acaa49ce9b392278cd7f993195
-Copying blob sha256:ecf6a89969f55913ddb3946ec16ae6f081ea6da1bbbdd9405acc637c25409b91
-Copying blob sha256:5072c9ed8ec7c16b80e415f16abf0b3e2790f56a9b2fd056a7f1fdc57d890484
-Copying blob sha256:28514f1c36dfaab17b64bafe50b81674eb26d1bd4d3a77b3e41fa845aaa6de47
-Copying blob sha256:3fe103da66fa70dba2988aeee5622af89f139b9dc25f56264a23f265d6b963b9
-Copying blob sha256:b81c520caa506161480e54309c78d231316ef7d8d9f678f9156dffb6a29dc6f2
-Copying blob sha256:9d2028e22db09545171d5e599b1783a20bffb0f111951ad7c3b28fd406a99c93
-Copying blob sha256:a037803dd8e9658a1dde19a4912df955f04c5cbff5edfc6a00a72897c54a9f32
-Copying blob sha256:89d6feb548fc2d8a0944d2520aa8b4dde3133e600f2b83791972a29f898727c8
-Copying blob sha256:74a1e6f67ecb6df52be3a1bb0171c02a3ae877ece96fc8fa29569bcfafd2a7eb
-Copying blob sha256:78d820be1a244529c6168f3aceaf86bfff3b7b7b70298cfc38e1035cb3ccfcb6
-Copying blob sha256:715790d78398c7eeddcc5ba1a63a81a2afbcbf56e1f56ebeef159a9614a17fe3
-Copying blob sha256:2c39fedc4e1e5004c6f279d7a08ac1d9df8d1e3a873af9fd89f0ddd70d15ad9c
-Copying blob sha256:b90f8f8be268b24e0d9551aacf17025a9e5efa2283c23f5e741edbf1cf06fd37
-Copying blob sha256:c7430cd06acc6fd0bb2e2e07079ad589b82f8c6d4921d1a05d4c7a97723b211e
-Copying blob sha256:663d6c6c1533ec21d318030d64f347237b5f4c94b8fdc09d8e87fa1ce77961fb
-Copying blob sha256:c65df4ffdbfd663bef1dee404651465c96a78e04516a06320d207577a7e4ac56
-Copying blob sha256:2db68336d1b7d07f8e00774fe81a89d6c91327c43c141c4af5e119869c41d41f
-Copying blob sha256:1d4516f977329d6cd15482f25c26c4079d35404b6a20d34f532b579e0ff2642b
-Copying blob sha256:a5a133c1a5fc6e3f4c73c2857ddcb7b52cb3857134667b6d839046aed76c8f51
-Copying blob sha256:56e3ad214bcdca7ebc7d8c62d8d2926b45546ba3a85b74ae47d4682f3baeb1f7
-Error: trying to reuse blob sha256:ecf6a89969f55913ddb3946ec16ae6f081ea6da1bbbdd9405acc637c25409b91 at destination: pinging container registry default-route-openshift-image-registry.apps-crc.testing: Get "https://default-route-openshift-image-registry.apps-crc.testing/v2/": dial tcp 127.0.0.1:443: connect: connection refused
+    c:\ocp\LibertyToOpenShiftInstantOn>podman push default-route-openshift-image-registry.apps-crc.testing/liberty-to-openshift-instanton/liberty-to-openshift-instanton:olp-java17-1.0
+    Getting image source signatures
+    Copying blob sha256:3fe103da66fa70dba2988aeee5622af89f139b9dc25f56264a23f265d6b963b9
+    Copying blob sha256:38fbe8c222cd3c5bf55c0f4e58bbb09beca4c1b87586b40953d697995a05b608
+    Copying blob sha256:ecf6a89969f55913ddb3946ec16ae6f081ea6da1bbbdd9405acc637c25409b91
+    Copying blob sha256:a0395d30313e17d544847ae4cef4328527ee69acaa49ce9b392278cd7f993195
+    Copying blob sha256:28514f1c36dfaab17b64bafe50b81674eb26d1bd4d3a77b3e41fa845aaa6de47
+    Copying blob sha256:5072c9ed8ec7c16b80e415f16abf0b3e2790f56a9b2fd056a7f1fdc57d890484
+    Copying blob sha256:b81c520caa506161480e54309c78d231316ef7d8d9f678f9156dffb6a29dc6f2
+    Copying blob sha256:9d2028e22db09545171d5e599b1783a20bffb0f111951ad7c3b28fd406a99c93
+    Copying blob sha256:74a1e6f67ecb6df52be3a1bb0171c02a3ae877ece96fc8fa29569bcfafd2a7eb
+    Copying blob sha256:78d820be1a244529c6168f3aceaf86bfff3b7b7b70298cfc38e1035cb3ccfcb6
+    Copying blob sha256:a037803dd8e9658a1dde19a4912df955f04c5cbff5edfc6a00a72897c54a9f32
+    Copying blob sha256:89d6feb548fc2d8a0944d2520aa8b4dde3133e600f2b83791972a29f898727c8
+    Copying blob sha256:715790d78398c7eeddcc5ba1a63a81a2afbcbf56e1f56ebeef159a9614a17fe3
+    Copying blob sha256:2c39fedc4e1e5004c6f279d7a08ac1d9df8d1e3a873af9fd89f0ddd70d15ad9c
+    Copying blob sha256:b90f8f8be268b24e0d9551aacf17025a9e5efa2283c23f5e741edbf1cf06fd37
+    Copying blob sha256:c7430cd06acc6fd0bb2e2e07079ad589b82f8c6d4921d1a05d4c7a97723b211e
+    Copying blob sha256:663d6c6c1533ec21d318030d64f347237b5f4c94b8fdc09d8e87fa1ce77961fb
+    Copying blob sha256:c65df4ffdbfd663bef1dee404651465c96a78e04516a06320d207577a7e4ac56
+    Copying blob sha256:2db68336d1b7d07f8e00774fe81a89d6c91327c43c141c4af5e119869c41d41f
+    Copying blob sha256:1d4516f977329d6cd15482f25c26c4079d35404b6a20d34f532b579e0ff2642b
+    Copying blob sha256:a5a133c1a5fc6e3f4c73c2857ddcb7b52cb3857134667b6d839046aed76c8f51
+    Copying blob sha256:56e3ad214bcdca7ebc7d8c62d8d2926b45546ba3a85b74ae47d4682f3baeb1f7
+    Getting image source signatures
+    Copying blob sha256:3fe103da66fa70dba2988aeee5622af89f139b9dc25f56264a23f265d6b963b9
+    Copying blob sha256:38fbe8c222cd3c5bf55c0f4e58bbb09beca4c1b87586b40953d697995a05b608
+    Copying blob sha256:a0395d30313e17d544847ae4cef4328527ee69acaa49ce9b392278cd7f993195
+    Copying blob sha256:ecf6a89969f55913ddb3946ec16ae6f081ea6da1bbbdd9405acc637c25409b91
+    Copying blob sha256:28514f1c36dfaab17b64bafe50b81674eb26d1bd4d3a77b3e41fa845aaa6de47
+    Copying blob sha256:5072c9ed8ec7c16b80e415f16abf0b3e2790f56a9b2fd056a7f1fdc57d890484
+    Copying blob sha256:b81c520caa506161480e54309c78d231316ef7d8d9f678f9156dffb6a29dc6f2
+    Copying blob sha256:9d2028e22db09545171d5e599b1783a20bffb0f111951ad7c3b28fd406a99c93
+    Copying blob sha256:89d6feb548fc2d8a0944d2520aa8b4dde3133e600f2b83791972a29f898727c8
+    Copying blob sha256:a037803dd8e9658a1dde19a4912df955f04c5cbff5edfc6a00a72897c54a9f32
+    Copying blob sha256:715790d78398c7eeddcc5ba1a63a81a2afbcbf56e1f56ebeef159a9614a17fe3
+    Copying blob sha256:78d820be1a244529c6168f3aceaf86bfff3b7b7b70298cfc38e1035cb3ccfcb6
+    Copying blob sha256:74a1e6f67ecb6df52be3a1bb0171c02a3ae877ece96fc8fa29569bcfafd2a7eb
+    Copying blob sha256:2c39fedc4e1e5004c6f279d7a08ac1d9df8d1e3a873af9fd89f0ddd70d15ad9c
+    Copying blob sha256:b90f8f8be268b24e0d9551aacf17025a9e5efa2283c23f5e741edbf1cf06fd37
+    Copying blob sha256:c7430cd06acc6fd0bb2e2e07079ad589b82f8c6d4921d1a05d4c7a97723b211e
+    Copying blob sha256:663d6c6c1533ec21d318030d64f347237b5f4c94b8fdc09d8e87fa1ce77961fb
+    Copying blob sha256:2db68336d1b7d07f8e00774fe81a89d6c91327c43c141c4af5e119869c41d41f
+    Copying blob sha256:c65df4ffdbfd663bef1dee404651465c96a78e04516a06320d207577a7e4ac56
+    Copying blob sha256:1d4516f977329d6cd15482f25c26c4079d35404b6a20d34f532b579e0ff2642b
+    Copying blob sha256:a5a133c1a5fc6e3f4c73c2857ddcb7b52cb3857134667b6d839046aed76c8f51
+    Copying blob sha256:56e3ad214bcdca7ebc7d8c62d8d2926b45546ba3a85b74ae47d4682f3baeb1f7
+    Getting image source signatures
+    Copying blob sha256:3fe103da66fa70dba2988aeee5622af89f139b9dc25f56264a23f265d6b963b9
+    Copying blob sha256:38fbe8c222cd3c5bf55c0f4e58bbb09beca4c1b87586b40953d697995a05b608
+    Copying blob sha256:ecf6a89969f55913ddb3946ec16ae6f081ea6da1bbbdd9405acc637c25409b91
+    Copying blob sha256:a0395d30313e17d544847ae4cef4328527ee69acaa49ce9b392278cd7f993195
+    Copying blob sha256:5072c9ed8ec7c16b80e415f16abf0b3e2790f56a9b2fd056a7f1fdc57d890484
+    Copying blob sha256:28514f1c36dfaab17b64bafe50b81674eb26d1bd4d3a77b3e41fa845aaa6de47
+    Copying blob sha256:b81c520caa506161480e54309c78d231316ef7d8d9f678f9156dffb6a29dc6f2
+    Copying blob sha256:9d2028e22db09545171d5e599b1783a20bffb0f111951ad7c3b28fd406a99c93
+    Copying blob sha256:78d820be1a244529c6168f3aceaf86bfff3b7b7b70298cfc38e1035cb3ccfcb6
+    Copying blob sha256:74a1e6f67ecb6df52be3a1bb0171c02a3ae877ece96fc8fa29569bcfafd2a7eb
+    Copying blob sha256:715790d78398c7eeddcc5ba1a63a81a2afbcbf56e1f56ebeef159a9614a17fe3
+    Copying blob sha256:2c39fedc4e1e5004c6f279d7a08ac1d9df8d1e3a873af9fd89f0ddd70d15ad9c
+    Copying blob sha256:a037803dd8e9658a1dde19a4912df955f04c5cbff5edfc6a00a72897c54a9f32
+    Copying blob sha256:89d6feb548fc2d8a0944d2520aa8b4dde3133e600f2b83791972a29f898727c8
+    Copying blob sha256:c65df4ffdbfd663bef1dee404651465c96a78e04516a06320d207577a7e4ac56
+    Copying blob sha256:663d6c6c1533ec21d318030d64f347237b5f4c94b8fdc09d8e87fa1ce77961fb
+    Copying blob sha256:2db68336d1b7d07f8e00774fe81a89d6c91327c43c141c4af5e119869c41d41f
+    Copying blob sha256:b90f8f8be268b24e0d9551aacf17025a9e5efa2283c23f5e741edbf1cf06fd37
+    Copying blob sha256:1d4516f977329d6cd15482f25c26c4079d35404b6a20d34f532b579e0ff2642b
+    Copying blob sha256:c7430cd06acc6fd0bb2e2e07079ad589b82f8c6d4921d1a05d4c7a97723b211e
+    Copying blob sha256:a5a133c1a5fc6e3f4c73c2857ddcb7b52cb3857134667b6d839046aed76c8f51
+    Copying blob sha256:56e3ad214bcdca7ebc7d8c62d8d2926b45546ba3a85b74ae47d4682f3baeb1f7
+    Getting image source signatures
+    Copying blob sha256:38fbe8c222cd3c5bf55c0f4e58bbb09beca4c1b87586b40953d697995a05b608
+    Copying blob sha256:a0395d30313e17d544847ae4cef4328527ee69acaa49ce9b392278cd7f993195
+    Copying blob sha256:ecf6a89969f55913ddb3946ec16ae6f081ea6da1bbbdd9405acc637c25409b91
+    Copying blob sha256:5072c9ed8ec7c16b80e415f16abf0b3e2790f56a9b2fd056a7f1fdc57d890484
+    Copying blob sha256:28514f1c36dfaab17b64bafe50b81674eb26d1bd4d3a77b3e41fa845aaa6de47
+    Copying blob sha256:3fe103da66fa70dba2988aeee5622af89f139b9dc25f56264a23f265d6b963b9
+    Copying blob sha256:b81c520caa506161480e54309c78d231316ef7d8d9f678f9156dffb6a29dc6f2
+    Copying blob sha256:9d2028e22db09545171d5e599b1783a20bffb0f111951ad7c3b28fd406a99c93
+    Copying blob sha256:a037803dd8e9658a1dde19a4912df955f04c5cbff5edfc6a00a72897c54a9f32
+    Copying blob sha256:89d6feb548fc2d8a0944d2520aa8b4dde3133e600f2b83791972a29f898727c8
+    Copying blob sha256:74a1e6f67ecb6df52be3a1bb0171c02a3ae877ece96fc8fa29569bcfafd2a7eb
+    Copying blob sha256:78d820be1a244529c6168f3aceaf86bfff3b7b7b70298cfc38e1035cb3ccfcb6
+    Copying blob sha256:715790d78398c7eeddcc5ba1a63a81a2afbcbf56e1f56ebeef159a9614a17fe3
+    Copying blob sha256:2c39fedc4e1e5004c6f279d7a08ac1d9df8d1e3a873af9fd89f0ddd70d15ad9c
+    Copying blob sha256:b90f8f8be268b24e0d9551aacf17025a9e5efa2283c23f5e741edbf1cf06fd37
+    Copying blob sha256:c7430cd06acc6fd0bb2e2e07079ad589b82f8c6d4921d1a05d4c7a97723b211e
+    Copying blob sha256:663d6c6c1533ec21d318030d64f347237b5f4c94b8fdc09d8e87fa1ce77961fb
+    Copying blob sha256:c65df4ffdbfd663bef1dee404651465c96a78e04516a06320d207577a7e4ac56
+    Copying blob sha256:2db68336d1b7d07f8e00774fe81a89d6c91327c43c141c4af5e119869c41d41f
+    Copying blob sha256:1d4516f977329d6cd15482f25c26c4079d35404b6a20d34f532b579e0ff2642b
+    Copying blob sha256:a5a133c1a5fc6e3f4c73c2857ddcb7b52cb3857134667b6d839046aed76c8f51
+    Copying blob sha256:56e3ad214bcdca7ebc7d8c62d8d2926b45546ba3a85b74ae47d4682f3baeb1f7
+    Error: trying to reuse blob sha256:ecf6a89969f55913ddb3946ec16ae6f081ea6da1bbbdd9405acc637c25409b91 at destination: pinging container registry default-route-openshift-image-registry.apps-crc.testing: Get "https://default-route-openshift-image-registry.apps-crc.testing/v2/": dial tcp 127.0.0.1:443: connect: connection refused
 
 You will receive the error "dial tcp 127.0.0.1:443: connect: connection refused".
 
@@ -1160,7 +1159,7 @@ crc podman-env
 
 Check the images. You will notice the list is now different.
 
-I have had many frustrating hours due to this situation.
+I've had many frustrating hours due to this situation.
 
 ````cmd
 podman images
