@@ -1557,6 +1557,15 @@ oc login -u kubeadmin https://api.crc.testing:6443
 
     Using project "liberty-to-openshift-instanton".
 
+Ensure you are connected to the correct project.
+
+````cmd
+oc project liberty-to-openshift-instanton
+````
+
+    C:\ocp\LibertyToOpenShiftInstantOn>oc project liberty-to-openshift-instanton
+    Already on project "liberty-to-openshift-instanton" on server "https://api.crc.testing:6443".
+
 Now create the SCC.
 
 ````cmd
@@ -1660,6 +1669,13 @@ oc login -u developer https://api.crc.testing:6443
     Using project "liberty-to-openshift-instanton".
 
 Ensure you are still on the correct project.
+
+````cmd
+oc project liberty-to-openshift-instanton
+````
+
+    C:\ocp\LibertyToOpenShiftInstantOn>oc project liberty-to-openshift-instanton
+    Already on project "liberty-to-openshift-instanton" on server "https://api.crc.testing:6443".
 
 ### (Optional read) Problems when placing serviceAccountName or securityContext in the wrong place.
 
