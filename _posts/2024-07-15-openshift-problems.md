@@ -1,6 +1,6 @@
-# Possible OpenShift errors with solutions
+# Possible OpenShift problems with solutions
 
-This post contains errors I have encountered while using OpenShift and podman.
+This post contains problems I have encountered while using OpenShift and podman.
 
 ## trying to reuse blob** sha256:ecf6a89969f55913ddb3946ec16ae6f081ea6da1bbbdd9405acc637c25409b91 at destination: unable to retrieve auth token: invalid username/password: authentication required
 

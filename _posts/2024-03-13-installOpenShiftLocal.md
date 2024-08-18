@@ -30,6 +30,8 @@ According to the OpenShift Local guide the following minimum requirements must b
 - 9 GB of free memory
 - 35 GB of storage space
 
+You cannot install OpenShift Local using Windows Home Edition.
+
 ## Environment
 
 | Category | Details  |

@@ -23,7 +23,6 @@ For this exercise you need to:
 
 This guide was completed using the following environment.
 
-
 | Category | Version  | URL |
 | :--- | :--- | :--- |
 | OpenShift Local | **crc version**<br>CRC version: 2.33.0+c43b17<br>OpenShift version: 4.14.12<br>Podman version: 4.4.4 | [https://seanbyd.github.io/2024/03/13/installOpenShiftLocal.html](https://seanbyd.github.io/2024/03/13/installOpenShiftLocal.html) |
@@ -1000,7 +999,7 @@ curl -vk http://localhost:9080
 
 For OpenShift you need to access the URL using the OpenShift route. 
 
-The command "oc apply -f deploy.yaml" creates the OpenShift route and service. These are used to access the application
+The command "oc apply -f deploy.yaml" creates the OpenShift route and service. These are used to access the application.
 
 Find the route to the running pod.
 
@@ -1011,6 +1010,8 @@ oc get routes
 c:\ocp\LibertyToOpenShift>oc get routes
 NAME                   HOST/PORT                                                    PATH   SERVICES               PORT    TERMINATION   WILDCARD
 liberty-to-openshift   liberty-to-openshift-liberty-to-openshift.apps-crc.testing          liberty-to-openshift   <all>                 None
+
+Now curl to the route.
 
 ````cmd
 curl -vk http://liberty-to-openshift-liberty-to-openshift.apps-crc.testing
