@@ -2003,7 +2003,7 @@ oc get routes
     NAME                             HOST/PORT                                                                        PATH   SERVICES                         PORT    TERMINATION   WILDCARD
     liberty-to-openshift-instanton   liberty-to-openshift-instanton-liberty-to-openshift-instanton.apps-crc.testing          liberty-to-openshift-instanton   <all>                 None
 
-Now curl to the route.
+Now curl to the route. I have found when testing on my PC the curl can take a little while to return a response.
 
 ````cmd
 curl -vk liberty-to-openshift-instanton-liberty-to-openshift-instanton.apps-crc.testing
@@ -2292,9 +2292,9 @@ oc projects
 
 | Reference  | URL |
 | :--- | :--- |
-| Faster startup with ... Open Liberty InstantOn | https://openliberty.io/docs/latest/instanton.html |
-| Linux capabilities. Great read to understan the Linux capabilities.  | https://man7.org/linux/man-pages/man7/capabilities.7.html |
-| Hands-on Open Liberty InstantOn. A lab I found early on that helped me during this process. | https://github.com/Emily-Jiang/techxchange-instanton-lab?search=1 |
+| Faster startup with ... Open Liberty InstantOn | [https://openliberty.io/docs/latest/instanton.html](https://openliberty.io/docs/latest/instanton.html) |
+| Linux capabilities. Great read to understan the Linux capabilities.  | [https://man7.org/linux/man-pages/man7/capabilities.7.html](https://man7.org/linux/man-pages/man7/capabilities.7.html) |
+| Hands-on Open Liberty InstantOn. A lab I found early on that helped me during this process. | [https://github.com/Emily-Jiang/techxchange-instanton-lab?search=1](https://github.com/Emily-Jiang/techxchange-instanton-lab?search=1) |
 
 ## Problems encountered building images
 
