@@ -224,16 +224,16 @@ To build my test image I used a RHEL 9.2 installation running using VMWARE Playe
 
 | Software | URL |
 | :--- | :--- |
-| RHEL | https://developers.redhat.com/products/rhel/download#publicandprivatecloudreadyrhelimages7522 |
-| VMWARE | https://www.vmware.com/info/workstation-player/evaluation |
+| RHEL | [RHEL 9.2](https://developers.redhat.com/products/rhel/download#publicandprivatecloudreadyrhelimages7522) |
+| VMware | [VMware player 16](https://www.vmware.com/info/workstation-player/evaluation) |
 
-Of course, if you are using Linux rather than Windows, you can proceed without needing to use VMWARE.
+Of course, if you are using Linux rather than Windows, you can proceed without needing to use VMware.
 
-The Open Liberty InstantOn image needs to be built using the root account.
+The Open Liberty InstantOn image needs to be built using the **root** account.
 
-I tend to do as much of the work as possible using a non-root account. So first start with your own user before switching to root.
+I tend to do as much of the work as possible using a non-root account. Unless otherwise specified, all work should be done with a non-root account.
 
-Log into Linux and create the following in your home directory.
+Log into Linux with the non-root user and create the following in your home directory.
 
 ````cmd
 mkdir LibertyToOpenShiftInstantOn
@@ -241,7 +241,7 @@ mkdir LibertyToOpenShiftInstantOn
 
 FTP LibertyToOpenShiftInstantOn-main.zip to the $HOME/LibertyToOpenShiftInstantOn directory
 
-Unzip the file
+Unzip the file.
 
 ````cmd
 cd $HOME/LibertyToOpenShiftInstantOn
@@ -288,7 +288,7 @@ podman images
     localhost/libertytoopenshiftinstanton  1.0-SNAPSHOT                   64879db0d28e  4 months ago  798 MB
     icr.io/appcafe/open-liberty            kernel-slim-java17-openj9-ubi  385d889567ef  5 months ago  688 MB
 
-In my case, I'll delete an old InstantOn image.
+Delete an old InstantOn image.
 
 ````cmd
 podman rmi libertytoopenshiftinstanton:1.0-SNAPSHOT
@@ -308,6 +308,12 @@ podman rmi libertytoopenshiftinstanton:1.0-SNAPSHOT
     icr.io/appcafe/open-liberty   kernel-slim-java17-openj9-ubi  385d889567ef  5 months ago  688 MB
 
 Build the Open Liberty InstantOn image.
+
+Take note of the parameters:
+
+    --cap-add=CHECKPOINT_RESTORE --cap-add=SYS_PTRACE --cap-add=SETPCAP --security-opt seccomp=unconfined
+
+These are required to build an Open Liberty InstantOn image. Refer to [Building an InstantOn image with Podman](https://openliberty.io/docs/latest/instanton.html#build) for more details.
 
 ````cmd
 podman build -t liberty-to-openshift-instanton:olp-java17-1.0 --cap-add=CHECKPOINT_RESTORE --cap-add=SYS_PTRACE --cap-add=SETPCAP --security-opt seccomp=unconfined -f Containerfile.olp.slim.java17
