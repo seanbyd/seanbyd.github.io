@@ -50,9 +50,29 @@ Unzip the downloaded file *LibertyToOpenShift-main.zip* to c:/ocp/LibertyToOpenS
 Open a command window and change to the project directory.
 
 ````cmd
+cd /d c:\
+mkdir c:\ocp
+mkdir c:\ocp\LibertyToOpenShift
 cd /d c:/ocp/LibertyToOpenShift
 unzip LibertyToOpenShift-main.zip using a tool of your choice
 ````
+
+The directory should be similar to the below.
+
+    c:\ocp\LibertyToOpenShift>dir
+
+    Directory of c:\ocp\LibertyToOpenShift
+
+    07/10/2024  08:46 PM    <DIR>          .
+    08/18/2024  09:52 PM    <DIR>          ..
+    07/09/2024  10:13 PM               896 .classpath
+    07/09/2024  10:13 PM               494 .factorypath
+    07/09/2024  10:13 PM               887 .project
+    07/10/2024  08:46 PM    <DIR>          .settings
+    07/09/2024  10:13 PM               673 Containerfile.olp.slim.java17
+    07/09/2024  10:13 PM               799 deploy.yaml
+    07/10/2024  08:46 PM    <DIR>          src
+    07/10/2024  08:46 PM    <DIR>          target
 
 ## Deployment
 

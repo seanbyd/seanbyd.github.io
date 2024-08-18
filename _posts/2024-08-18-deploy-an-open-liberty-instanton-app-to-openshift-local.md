@@ -56,9 +56,34 @@ Unzip the downloaded file *LibertyToOpenShiftInstantOn-main.zip* to c:/ocp/Liber
 Open a command window and change to the project directory.
 
 ````cmd
-cd /d c:/ocp/LibertyToOpenShiftInstantOn
+cd /d c:\
+mkdir c:\ocp
+mkdir c:\ocp\LibertyToOpenShiftInstantOn
+cd /d c:\ocp\LibertyToOpenShiftInstantOn
 unzip LibertyToOpenShiftInstantOn-main.zip using a tool of your choice
 ````
+
+The directory should be similar to the below.
+
+    c:\ocp\LibertyToOpenShiftInstantOn>dir
+
+    Directory of c:\ocp\LibertyToOpenShiftInstantOn
+
+    08/18/2024  09:52 PM    <DIR>          .
+    08/18/2024  09:52 PM    <DIR>          ..
+    08/18/2024  09:52 PM               896 .classpath
+    08/18/2024  09:52 PM               494 .factorypath
+    08/18/2024  09:52 PM               896 .project
+    08/18/2024  09:52 PM    <DIR>          .settings
+    08/18/2024  09:52 PM               751 Containerfile.olp.slim.java17
+    08/18/2024  09:52 PM             1,275 deploy.yaml
+    08/18/2024  09:52 PM             1,709 deploy_incorrectly_placed_in_spec.yaml
+    08/18/2024  09:52 PM             1,530 deploy_incorrectly_placed_SA_in_spec.yaml
+    08/18/2024  09:52 PM               958 scc-cap-cr-full-details-dont-use-1.yaml
+    08/18/2024  09:52 PM             1,059 scc-cap-cr-full-details-dont-use-2.yaml
+    08/18/2024  09:52 PM               541 scc-cap-cr-minmal.yaml
+    08/18/2024  09:52 PM    <DIR>          src
+    08/18/2024  09:52 PM    <DIR>          target
 
 ## Deployment
 
@@ -121,13 +146,28 @@ crc start
     > @FOR /f "tokens=*" %i IN ('crc oc-env') DO @call %i
     > oc login -u developer https://api.crc.testing:6443
 
-### Prepare OC CLI
+### Prepare OC CLI and podman
 
 To use the OC CLI you'll need to set some variables. If you miss this step, you'll receive errors later on.
 
+The "crc start" command mentions to use "crc oc-env". To avoid problems later on I use "crc podman-env".
+
 ````cmd
-@FOR /f "tokens=*" %i IN ('crc oc-env') DO @call %i
+crc podman-env
+@FOR /f "tokens=*" %i IN ('crc podman-env') DO @call %i
 ````
+
+    c:\ocp>cd LibertyToOpenShiftInstantOn
+
+    c:\ocp\LibertyToOpenShiftInstantOn>crc podman-env
+    SET PATH=C:\Users\bdsae\.crc\bin\oc;%PATH%
+    SET CONTAINER_SSHKEY=C:\Users\bdsae\.crc\machines\crc\id_ecdsa
+    SET CONTAINER_HOST=ssh://core@127.0.0.1:2222/run/user/1000/podman/podman.sock
+    SET DOCKER_HOST=npipe:////./pipe/crc-podman
+    REM Run this command to configure your shell:
+    REM @FOR /f "tokens=*" %i IN ('crc podman-env') DO @call %i
+
+    c:\ocp\LibertyToOpenShiftInstantOn>@FOR /f "tokens=*" %i IN ('crc podman-env') DO @call %i
 
 ### (Optionally) Remove old podman images
 
@@ -142,56 +182,33 @@ Optionally delete any old podman images you no longer required.
 
 ````cmd
 podman images
-podman rmi 0e1aa95417a0
+podman rmi 385d889567ef
 podman rmi icr.io/appcafe/open-liberty:kernel-slim-java17-openj9-ubi
-podman rmi 11e9b7915530 --force
+podman rmi dea88bde62d4 --force
 ````
 
     c:\ocp\LibertyToOpenShiftInstantOn>podman images
-    REPOSITORY                                                                                     TAG                            IMAGE ID      CREATED       SIZE
-    localhost/libertytoopenshift                                                                   1.0-SNAPSHOT                   11e9b7915530  3 months ago  738 MB
-    default-route-openshift-image-registry.apps-crc.testing/libertytoopenshift/libertytoopenshift  1.0-SNAPSHOT                   11e9b7915530  3 months ago  738 MB
-    icr.io/appcafe/open-liberty                                                                    kernel-slim-java17-openj9-ubi  b97405ff9ff2  3 months ago  687 MB
-    icr.io/appcafe/open-liberty                                                                    kernel-slim-java11-openj9-ubi  0e1aa95417a0  3 months ago  669 MB
-    icr.io/ibm-messaging/mq                                                                        latest                         9e0011332935  9 months ago  1.62 GB
+    REPOSITORY                                                                                                             TAG                            IMAGE ID      CREATED       SIZE
+    default-route-openshift-image-registry.apps-crc.testing/liberty-to-openshift-instanton/liberty-to-openshift-instanton  olp-java17-1.0                 dea88bde62d4  5 days ago    798 MB
+    localhost/liberty-to-openshift-instanton                                                                               olp-java17-1.0                 dea88bde62d4  5 days ago    798 MB
+    icr.io/appcafe/open-liberty                                                                                            kernel-slim-java17-openj9-ubi  385d889567ef  5 months ago  688 MB
 
-    c:\ocp\LibertyToOpenShiftInstantOn>podman rmi 0e1aa95417a0
-    Untagged: icr.io/appcafe/open-liberty:kernel-slim-java11-openj9-ubi
-    Deleted: 0e1aa95417a0f7d01fcadb4a1cfb62db0ce097c638cc619d3acb7ee31070022b
-
-    c:\ocp\LibertyToOpenShiftInstantOn>podman images
-    REPOSITORY                                                                                     TAG                            IMAGE ID      CREATED       SIZE
-    localhost/libertytoopenshift                                                                   1.0-SNAPSHOT                   11e9b7915530  3 months ago  738 MB
-    default-route-openshift-image-registry.apps-crc.testing/libertytoopenshift/libertytoopenshift  1.0-SNAPSHOT                   11e9b7915530  3 months ago  738 MB
-    icr.io/appcafe/open-liberty                                                                    kernel-slim-java17-openj9-ubi  b97405ff9ff2  3 months ago  687 MB
-    icr.io/ibm-messaging/mq                                                                        latest                         9e0011332935  9 months ago  1.62 GB
-
-    c:\ocp\LibertyToOpenShiftInstantOn>podman rmi icr.io/appcafe/open-liberty:kernel-slim-java17-openj9-ubi
+    c:\ocp\LibertyToOpenShiftInstantOn>podman rmi 385d889567ef
     Untagged: icr.io/appcafe/open-liberty:kernel-slim-java17-openj9-ubi
+    Deleted: 385d889567ef799ddf8daa3e3c071462c598a96aeb5f59cf8f57d0fed9179b14
 
     c:\ocp\LibertyToOpenShiftInstantOn>podman images
-    REPOSITORY                                                                                     TAG           IMAGE ID      CREATED       SIZE
-    localhost/libertytoopenshift                                                                   1.0-SNAPSHOT  11e9b7915530  3 months ago  738 MB
-    default-route-openshift-image-registry.apps-crc.testing/libertytoopenshift/libertytoopenshift  1.0-SNAPSHOT  11e9b7915530  3 months ago  738 MB
-    icr.io/ibm-messaging/mq                                                                        latest        9e0011332935  9 months ago  1.62 GB
+    REPOSITORY                                                                                                             TAG             IMAGE ID      CREATED     SIZE
+    default-route-openshift-image-registry.apps-crc.testing/liberty-to-openshift-instanton/liberty-to-openshift-instanton  olp-java17-1.0  dea88bde62d4  5 days ago  798 MB
+    localhost/liberty-to-openshift-instanton                                                                               olp-java17-1.0  dea88bde62d4  5 days ago  798 MB
 
-    c:\ocp\LibertyToOpenShiftInstantOn>podman rmi 11e9b7915530
-    Error: unable to delete image "11e9b79155302d2643fe41e93b02a997b5ee292b5078f55b3e053cd3dfaa0858" by ID with more than one tag ([localhost/libertytoopenshift:1.0-SNAPSHOT default-route-openshift-image-registry.apps-crc.testing/libertytoopenshift/libertytoopenshift:1.0-SNAPSHOT]): please force removal
-
-    c:\ocp\LibertyToOpenShiftInstantOn>podman rmi 11e9b7915530 --force
-    Untagged: localhost/libertytoopenshift:1.0-SNAPSHOT
-    Untagged: default-route-openshift-image-registry.apps-crc.testing/libertytoopenshift/libertytoopenshift:1.0-SNAPSHOT
-    Deleted: 11e9b79155302d2643fe41e93b02a997b5ee292b5078f55b3e053cd3dfaa0858
-    Deleted: da0b8c7287ce51ba66ee583375adc712487093702a63e74cc07a4a764c567707
-    Deleted: 6efd16647b6311c86fa9a7b6799afe877b7a4f586db4853c76a6ba9186d0a8ab
-    Deleted: 9b768d2566ce1f1f1d7cadc484e497025b30b489dad803385ac45318d813d1d9
-    Deleted: 1222697c7fee41b72cd08c308e645a09a88b506281aafee16b4957329006ea10
-    Deleted: 7480c0dd974212946186cb1ce2a3a69e1fb4d5f63664732a9b6bd5d72d12c95e
-    Deleted: 84146279dff5cc08c74633c4955ef33b935af7b4073ad92e58768abc01b7f458
+    c:\ocp\LibertyToOpenShiftInstantOn>podman rmi dea88bde62d4 --force
+    Untagged: default-route-openshift-image-registry.apps-crc.testing/liberty-to-openshift-instanton/liberty-to-openshift-instanton:olp-java17-1.0
+    Untagged: localhost/liberty-to-openshift-instanton:olp-java17-1.0
+    Deleted: dea88bde62d4daa1a8fdfa5a25ebf5564cc2961aac258f21e75ab974c22cc3b2
 
     c:\ocp\LibertyToOpenShiftInstantOn>podman images
-    REPOSITORY               TAG         IMAGE ID      CREATED       SIZE
-    icr.io/ibm-messaging/mq  latest      9e0011332935  9 months ago  1.62 GB
+    REPOSITORY  TAG         IMAGE ID    CREATED     SIZE
 
 ### Build the image on Linux
 
