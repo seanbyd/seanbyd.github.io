@@ -309,7 +309,7 @@ podman rmi libertytoopenshiftinstanton:1.0-SNAPSHOT
 
 Build the Open Liberty InstantOn image.
 
-Take note of the parameters:
+Take note of the parameters.
 
     --cap-add=CHECKPOINT_RESTORE --cap-add=SYS_PTRACE --cap-add=SETPCAP --security-opt seccomp=unconfined
 
@@ -388,11 +388,11 @@ For a full description of InstantOn refer to the [Faster startup for containeriz
 If you receive the following error:
 
 ````
-	Error (criu/proc_parse.c:694): Can't open 1023's mapfile link 55a65bfe8000: Operation not permitted
-	Error (criu/cr-dump.c:1558): Collect mappings (pid: 1023) failed with -1
-	Error (criu/cr-dump.c:2093): Dumping FAILED.
-	CWWKE0963E: The server checkpoint request failed because netlink system calls were unsuccessful. If SELinux is enabled in enforcing mode, netlink system calls might be blocked by the SELinux "virt_sandbox_use_netlink" policy setting. Either disable SELinux or enable the netlink system calls with the "setsebool virt_sandbox_use_netlink 1" command.
-	Error: building at STEP "RUN checkpoint.sh afterAppStart": while running runtime: exit status 74
+Error (criu/proc_parse.c:694): Can't open 1023's mapfile link 55a65bfe8000: Operation not permitted
+Error (criu/cr-dump.c:1558): Collect mappings (pid: 1023) failed with -1
+Error (criu/cr-dump.c:2093): Dumping FAILED.
+CWWKE0963E: The server checkpoint request failed because netlink system calls were unsuccessful. If SELinux is enabled in enforcing mode, netlink system calls might be blocked by the SELinux "virt_sandbox_use_netlink" policy setting. Either disable SELinux or enable the netlink system calls with the "setsebool virt_sandbox_use_netlink 1" command.
+Error: building at STEP "RUN checkpoint.sh afterAppStart": while running runtime: exit status 74
 ````
 
 Issue the following command (under root) before building the image.
@@ -404,14 +404,14 @@ setsebool virt_sandbox_use_netlink 1
 If you receive the following error and you are not building the image using the root account, switch to the root account and re-try.
 
 ````
-	Error (criu/proc_parse.c:379): Failed to resolve mapping 558982528000 filename
-	Error (criu/proc_parse.c:694): Can't open 1023's mapfile link 558982528000: Operation not permitted
-	Error (criu/cr-dump.c:1558): Collect mappings (pid: 1023) failed with -1
-	Error (criu/cr-dump.c:2093): Dumping FAILED.
-	Error: building at STEP "RUN checkpoint.sh afterAppStart": while running runtime: exit status 74
+Error (criu/proc_parse.c:379): Failed to resolve mapping 558982528000 filename
+Error (criu/proc_parse.c:694): Can't open 1023's mapfile link 558982528000: Operation not permitted
+Error (criu/cr-dump.c:1558): Collect mappings (pid: 1023) failed with -1
+Error (criu/cr-dump.c:2093): Dumping FAILED.
+Error: building at STEP "RUN checkpoint.sh afterAppStart": while running runtime: exit status 74
 ````
 
-Refer later in this post for 'problems encountered' for more details on this error.
+Refer later in this post for 'problems encountered' for more details on these errors.
 
 ### Verify that the image has been created
 
@@ -435,7 +435,7 @@ podman images
 
 Optionally test the image using podman before you deploy to OpenShift.
 
-#### Start the podman container
+#### Start the podman container with missing parameters
 
 ````cmd
 podman run -d --name A_NAME_OF_YOUR_CHOICE --cap-add=CHECKPOINT_RESTORE --cap-add=SETPCAP --security-opt seccomp=unconfined  -p PORT_YOU_WILL_ACCESS:INTERNAL_PORT_IN_SERVER_XML REPOSITORY:TAG
@@ -443,12 +443,14 @@ podman run -d --name A_NAME_OF_YOUR_CHOICE --cap-add=CHECKPOINT_RESTORE --cap-ad
 
 The below command is missing mandatory parameters: --cap-add=CHECKPOINT_RESTORE --cap-add=SETPCAP --security-opt seccomp=unconfined.
 
-I show this as I always seem to miss adding this. You will see an error as below.
+For some reason I often forget to add these parameters. Try this out yourself so you can see the errors.
 
 ````cmd
 podman run -d --name liberty-to-openshift-instanton -p 9080:9080 liberty-to-openshift-instanton:olp-java17-1.0
 podman ps
 ````
+
+The command output should be similar to the following.
 
     [root@localhost LibertyToOpenShiftInstantOn]# podman run -d --name liberty-to-openshift-instanton -p 9080:9080 liberty-to-openshift-instanton:olp-java17-1.0
     0f8d146c7403082222e82589cc4e10b97aa7a0a1988f0de999091923bd594429
@@ -524,7 +526,7 @@ cat checkpoint.log
     Warn  (compel/arch/x86/src/lib/infect.c:356): Will restore 1071 with interrupted system call
     Warn  (compel/arch/x86/src/lib/infect.c:356): Will restore 1072 with interrupted system call
 
-In my case, I see many errors such as 'Unable to interrupt task: 1088 (Operation not permitted)'.
+You will see the error 'Unable to interrupt task: 1088 (Operation not permitted)'. This was caused as the requirement parameters were not set when running podman.
 
 Exit from the container.
 
