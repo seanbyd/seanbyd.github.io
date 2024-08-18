@@ -1004,7 +1004,7 @@ oc projects
 
 You can optionally read or skip this section. Your choice. This section covers a problem I've faced on numerous occasions while I was learning - this led to much frustration.
 
-It is important that you set the "crc podman-env" properly before continuing. Not doing so may lead to probelms when pushing the image to the OpenShift Local internal registry.
+It is important that you set the "crc podman-env" properly before continuing. Not doing so may lead to problems when pushing the image to the OpenShift Local internal registry.
 
 This below shows what happens before and after the environment is set. You don't need to issue any of these commands for this guide, but feel free to try it out for yourself if you like.
 
@@ -1252,7 +1252,7 @@ oc registry login --insecure=true
 
 Now continue with your process.
 
-Set the crc podman-env settings.
+If not already done, set the crc podman-env settings.
 
 ````cmd
 crc podman-env
@@ -1315,9 +1315,11 @@ podman images
     localhost/liberty-to-openshift                                                                                         olp-java17-1.0                 e03048676c90  5 weeks ago    740 MB
     icr.io/appcafe/open-liberty                                                                                            kernel-slim-java17-openj9-ubi  b5cc5094dd1f  7 weeks ago    690 MB
 
-Note thate there are two images with the same IMAGE ID: the original image build using podman; plus the newly tagged image specifying the OpenShift registry details.
+Note that there are two images with the same IMAGE ID: the original image build using podman; plus the newly tagged image specifying the OpenShift registry details.
 
 #### Push the image to OpenShift
+
+Issue the following command to push the image to the OpenShift Local internal registry.
 
 | Command| Help |
 | :--- | :--- |
@@ -1365,28 +1367,30 @@ Possible problems:
     oc registry login --insecure=true
     ````
 
+    ````
     c:\ocp\images>oc registry login --insecure=true
     info: Using registry public hostname default-route-openshift-image-registry.apps-crc.testing
     Saved credentials for default-route-openshift-image-registry.apps-crc.testing into C:\Users\bdsae\.config\containers\auth.json
+    ````
 
 - **Error: trying to reuse blob** sha256:ecf6a89969f55913ddb3946ec16ae6f081ea6da1bbbdd9405acc637c25409b91 at destination: pinging container registry default-route-openshift-image-registry.apps-crc.testing: Get "https://default-route-openshift-image-registry.apps-crc.testing/v2/": dial tcp 127.0.0.1:443: connect: connection refused
 
-Set the crc podman-env settings and re-try.
+    Set the crc podman-env settings and re-try.
 
-````cmd
-crc podman-env
-@FOR /f "tokens=*" %i IN ('crc podman-env') DO @call %i
-````
+    ````cmd
+    crc podman-env
+    @FOR /f "tokens=*" %i IN ('crc podman-env') DO @call %i
+    ````
 
-    c:\ocp\LibertyToOpenShiftInstantOn>crc podman-env
-    SET PATH=C:\Users\sean\.crc\bin\oc;%PATH%
-    SET CONTAINER_SSHKEY=C:\Users\sean\.crc\machines\crc\id_ecdsa
-    SET CONTAINER_HOST=ssh://core@127.0.0.1:2222/run/user/1000/podman/podman.sock
-    SET DOCKER_HOST=npipe:////./pipe/crc-podman
-    REM Run this command to configure your shell:
-    REM @FOR /f "tokens=*" %i IN ('crc podman-env') DO @call %i
+        c:\ocp\LibertyToOpenShiftInstantOn>crc podman-env
+        SET PATH=C:\Users\sean\.crc\bin\oc;%PATH%
+        SET CONTAINER_SSHKEY=C:\Users\sean\.crc\machines\crc\id_ecdsa
+        SET CONTAINER_HOST=ssh://core@127.0.0.1:2222/run/user/1000/podman/podman.sock
+        SET DOCKER_HOST=npipe:////./pipe/crc-podman
+        REM Run this command to configure your shell:
+        REM @FOR /f "tokens=*" %i IN ('crc podman-env') DO @call %i
 
-    c:\ocp\LibertyToOpenShiftInstantOn>@FOR /f "tokens=*" %i IN ('crc podman-env') DO @call %i
+        c:\ocp\LibertyToOpenShiftInstantOn>@FOR /f "tokens=*" %i IN ('crc podman-env') DO @call %i
 
 ### Check the image in OpenShift
 
