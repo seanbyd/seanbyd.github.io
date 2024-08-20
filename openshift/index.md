@@ -13,5 +13,4 @@ This page contains posts around OpenShift.
 
 [Deploy an Open Liberty InstantOn app to OpenShift Local](../_posts/2024-08-18-deploy-an-open-liberty-instanton-app-to-openshift-local.md)
 
-
 [Errors](../_posts/2024-07-15-openshift-problems.md)

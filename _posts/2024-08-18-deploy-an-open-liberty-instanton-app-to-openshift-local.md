@@ -224,8 +224,8 @@ To build my test image I used a RHEL 9.2 installation running using VMWARE Playe
 
 | Software | URL |
 | :--- | :--- |
-| RHEL | [RHEL 9.2](https://developers.redhat.com/products/rhel/download#publicandprivatecloudreadyrhelimages7522) |
-| VMware | [VMware player 16](https://www.vmware.com/info/workstation-player/evaluation) |
+| RHEL 9.2 | [RHEL 9.2](https://developers.redhat.com/products/rhel/download#publicandprivatecloudreadyrhelimages7522) |
+| VMware 16 | [VMware player 16](https://www.vmware.com/info/workstation-player/evaluation) |
 
 Of course, if you are using Linux rather than Windows, you can proceed without needing to use VMware.
 
