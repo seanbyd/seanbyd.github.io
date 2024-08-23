@@ -160,8 +160,8 @@ crc podman-env
     c:\ocp>cd LibertyToOpenShiftInstantOn
 
     c:\ocp\LibertyToOpenShiftInstantOn>crc podman-env
-    SET PATH=C:\Users\bdsae\.crc\bin\oc;%PATH%
-    SET CONTAINER_SSHKEY=C:\Users\bdsae\.crc\machines\crc\id_ecdsa
+    SET PATH=C:\Users\sean\.crc\bin\oc;%PATH%
+    SET CONTAINER_SSHKEY=C:\Users\sean\.crc\machines\crc\id_ecdsa
     SET CONTAINER_HOST=ssh://core@127.0.0.1:2222/run/user/1000/podman/podman.sock
     SET DOCKER_HOST=npipe:////./pipe/crc-podman
     REM Run this command to configure your shell:
@@ -897,8 +897,8 @@ crc podman-env
 ````
 
     c:\ocp\images>crc podman-env
-    SET PATH=C:\Users\bdsae\.crc\bin\oc;%PATH%
-    SET CONTAINER_SSHKEY=C:\Users\bdsae\.crc\machines\crc\id_ecdsa
+    SET PATH=C:\Users\sean\.crc\bin\oc;%PATH%
+    SET CONTAINER_SSHKEY=C:\Users\sean\.crc\machines\crc\id_ecdsa
     SET CONTAINER_HOST=ssh://core@127.0.0.1:2222/run/user/1000/podman/podman.sock
     SET DOCKER_HOST=npipe:////./pipe/crc-podman
     REM Run this command to configure your shell:
@@ -1329,7 +1329,7 @@ Issue the following command to push the image to the OpenShift Local internal re
 podman push default-route-openshift-image-registry.apps-crc.testing/liberty-to-openshift-instanton/liberty-to-openshift-instanton:olp-java17-1.0
 ````
 
-    C:\Users\bdsae>podman push default-route-openshift-image-registry.apps-crc.testing/liberty-to-openshift-instanton/liberty-to-openshift-instanton:olp-java17-1.0
+    C:\Users\sean>podman push default-route-openshift-image-registry.apps-crc.testing/liberty-to-openshift-instanton/liberty-to-openshift-instanton:olp-java17-1.0
     Getting image source signatures
     Copying blob sha256:3fe103da66fa70dba2988aeee5622af89f139b9dc25f56264a23f265d6b963b9
     Copying blob sha256:38fbe8c222cd3c5bf55c0f4e58bbb09beca4c1b87586b40953d697995a05b608
@@ -1370,7 +1370,7 @@ Possible problems:
     ````
     c:\ocp\images>oc registry login --insecure=true
     info: Using registry public hostname default-route-openshift-image-registry.apps-crc.testing
-    Saved credentials for default-route-openshift-image-registry.apps-crc.testing into C:\Users\bdsae\.config\containers\auth.json
+    Saved credentials for default-route-openshift-image-registry.apps-crc.testing into C:\Users\sean\.config\containers\auth.json
     ````
 
 - **Error: trying to reuse blob** sha256:ecf6a89969f55913ddb3946ec16ae6f081ea6da1bbbdd9405acc637c25409b91 at destination: pinging container registry default-route-openshift-image-registry.apps-crc.testing: Get "https://default-route-openshift-image-registry.apps-crc.testing/v2/": dial tcp 127.0.0.1:443: connect: connection refused
