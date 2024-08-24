@@ -526,7 +526,7 @@ cat checkpoint.log
     Warn  (compel/arch/x86/src/lib/infect.c:356): Will restore 1071 with interrupted system call
     Warn  (compel/arch/x86/src/lib/infect.c:356): Will restore 1072 with interrupted system call
 
-You will see the error 'Unable to interrupt task: 1088 (Operation not permitted)'. This was caused as the requirement parameters were not set when running podman.
+You will see the error 'Unable to interrupt task: 1088 (Operation not permitted)'. This was caused as the required parameters were not set when running podman.
 
 Exit from the container.
 
@@ -604,7 +604,7 @@ podman ps
 podman logs liberty-to-openshift-instanton
 ````
 
-If all goes well, you'll see a succesful start using a checkpoint restore. Look for message 'resumed operation from a checkpoint'.
+If all goes well, you'll see a successful start using a checkpoint restore. Look for message 'resumed operation from a checkpoint'.
 
     [root@localhost LibertyToOpenShiftInstantOn]# podman logs liberty-to-openshift-instanton
 
@@ -1585,7 +1585,7 @@ oc get scc liberty-to-openshift-instanton
     NAME                             PRIV    CAPS         SELINUX     RUNASUSER          FSGROUP    SUPGROUP   PRIORITY     READONLYROOTFS   VOLUMES
     liberty-to-openshift-instanton   false   <no value>   MustRunAs   MustRunAsNonRoot   RunAsAny   RunAsAny   <no value>   false            ["awsElasticBlockStore","azureDisk","azureFile","cephFS","cinder","configMap","csi","downwardAPI","emptyDir","ephemeral","fc","flexVolume","flocker","gcePersistentDisk","gitRepo","glusterfs","iscsi","nfs","persistentVolumeClaim","photonPersistentDisk","portworxVolume","projected","quobyte","rbd","scaleIO","secret","storageOS","vsphere"]
 
-Display all the SCC details. Take particular not of:
+Display all the SCC details. Take particular note of:
 
     Default Add Capabilities:                     CHECKPOINT_RESTORE,SETPCAP
     Required Drop Capabilities:                   KILL,MKNOD,SETUID,SETGID
@@ -1649,7 +1649,7 @@ oc adm policy --help
 oc adm policy add-scc-to-user --help
 ````
 
-If you want to read more details on SCC, you can read the blod [Managing SCCs in OpenShift]([https://www.redhat.com/en/blog/managing-sccs-in-openshift).
+If you want to read more details on SCC, you can read the blog [Managing SCCs in OpenShift]([https://www.redhat.com/en/blog/managing-sccs-in-openshift).
 
 Switch back to the developer account. All remaining steps should be created under this account.
 
