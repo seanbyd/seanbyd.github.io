@@ -1649,7 +1649,7 @@ oc adm policy --help
 oc adm policy add-scc-to-user --help
 ````
 
-If you want to read more details on SCC, you can read the blod [Managing SCCs in OpenShift]([https://www.redhat.com/en/blog/managing-sccs-in-openshift).
+If you want to read more details on SCC, you can read the blod [Managing SCCs in OpenShift](https://www.redhat.com/en/blog/managing-sccs-in-openshift).
 
 Switch back to the developer account. All remaining steps should be created under this account.
 
