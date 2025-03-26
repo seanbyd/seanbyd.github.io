@@ -218,6 +218,7 @@ spec:
     trustedCertificates:
     - certificate: ca.crt
       secretName: my-kafka-cluster-ca-cert```
+```
 
 ### Kafka Connector
 
