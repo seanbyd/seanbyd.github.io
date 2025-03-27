@@ -1,12 +1,12 @@
-# Kafka Connector Exactly-Once Delivery
+# Kafka MQ Source Connector Exactly-Once Delivery
 
 Last updated: 25 March 2025
 
-This post comtains the details to configure the Kafka Connector exactly-once delivery.
+This post comtains the details to configure the Kafka MQ source connector exactly-once delivery.
 
-Full details can be found on the IBM page [Exactly-once message delivery semantics in IBM MQ source connector](https://github.com/ibm-messaging/kafka-connect-mq-source?tab=readme-ov-file#exactly-once-message-delivery-semantics).
+Full details can be found on the IBM page [exactly-once message delivery semantics in IBM MQ source connector](https://github.com/ibm-messaging/kafka-connect-mq-source?tab=readme-ov-file#exactly-once-message-delivery-semantics).
 
-More details can be found on [Exactly-once messaging](https://github.com/ibm-messaging/kafka-connect-mq-source?tab=readme-ov-file#exactly-once-message-delivery-semantics) in Github.
+More details can be found on [exactly-once messaging](https://github.com/ibm-messaging/kafka-connect-mq-source?tab=readme-ov-file#exactly-once-message-delivery-semantics) in Github.
 
 ## Prerequisites
 
@@ -16,13 +16,13 @@ More details can be found on [Exactly-once messaging](https://github.com/ibm-mes
 
 - [Kafka ACL requirements](https://kafka.apache.org/documentation/#connect_exactlyoncesource).
 
-Refer to the IBM [running the mq source connector prerequisites](https://ibm.github.io/event-automation/es/connecting/mq/source/#prerequisites-1) page for full details.
+Refer to the IBM [running the MQ source connector prerequisites](https://ibm.github.io/event-automation/es/connecting/mq/source/#prerequisites-1) page for full details.
 
 ## Settings
 
-### Tasks max in the Kafka Connector
+### Tasks max in the Kafka connector
 
-For exactly-once messaging, tasksMax must be set to 1 in the Kafka Connector yaml file.
+For exactly-once messaging, tasksMax must be set to 1 in the Kafka MQ source connector yaml file.
 
 ``` yaml
 tasksMax: 1
@@ -44,9 +44,9 @@ spec:
   :
 ```
 
-### Replicas in the Kafka Connect runtime
+### Replicas in the Kafka connect runtime
 
-While I haven't found this in the documentation, considering tasksMax in the Kafka Connector must be set to 1, by extension, the replicas value in the Kafka Connect runtime should be set to 1.
+While I haven't found this in the documentation, considering tasksMax in the Kafka MQ source connector must be set to 1, by extension, the replicas value in the Kafka connect runtime should be set to 1.
 
 ``` yaml
  replicas: 1
@@ -69,9 +69,9 @@ spec:
     :
 ```
 
-### Enable exactly-once in the Kafka Connect runtime
+### Enable exactly-once in the Kafka MQ source connect runtime
 
-To enable exactly-once messaging, add the following to the Kafka Connect yaml file.
+To enable exactly-once messaging, add the following to the Kafka MQ source connect yaml file.
 
 ``` yaml
 exactly.once.source.support: enabled
@@ -94,9 +94,9 @@ spec:
 More details can be found in [enabling exactly-once prerequisites](https://ibm.github.io/event-automation/es/connecting/mq/source/#prerequisites-1
 ).
 
-### Configure exactly-once in the Kafka Connector
+### Configure exactly-once in the Kafka MQ source connector
 
-Add the state queue name int the Kafka Connector yaml file.
+Add the state queue name int the Kafka MQ source connector yaml file.
 
 ``` yaml
 mq.exactly.once.state.queue: specify-your-state-queue-name
@@ -134,7 +134,7 @@ Also refer to the [Kafka desription of transaction boundry](https://kafka.apache
 
 Full yaml files have been provided below to help configure exactly-once messaging.
 
-### Kafka Connect runtime
+### Kafka MQ source connect runtime
 
 ``` yaml
 apiversion: eventstreams.ibm.com/v1beta2
@@ -220,7 +220,7 @@ spec:
       secretName: my-kafka-cluster-ca-cert```
 ```
 
-### Kafka Connector
+### Kafka MQ source connector
 
 ``` yaml
 apiversion: eventstreams.ibm.com/vibeta2
@@ -259,10 +259,10 @@ spec:
     # value.converter: org.apache.kafka.connect.storage.StringConverter
     key.converter: org.apache.kafka.connect.converters.ByteArrayConverter
     value.converter: org. apache.kafka. connect.converters.ByteArrayConverter
-    # You can control the state of the connecter with the below vallues.
-    #state: running
-    #state: paused
-    #state: stopped
+    # You can control the state of the connecter with the below values.
+  #state: running
+  #state: paused
+  #state: stopped
 ```
 
 ## MQ config
@@ -291,7 +291,7 @@ Ensure all consumers of the topic set the [Kafka isolation level](https://kafka.
 
 Ensure the exatly once 'state' queue is empty before starting the connector with exactly-once enabled.
 
-## URL
+## References
 
 - [Exactly-once message delivery semantics in IBM MQ source connector](https://github.com/ibm-messaging/kafka-connect-mq-source?tab=readme-ov-file#exactly-once-message-delivery-semantics)
 
