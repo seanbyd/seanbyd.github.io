@@ -1,4 +1,4 @@
-# Working Kafka Connect YAML file to connect to IBM MQ using SSL
+# Working Kafka MQ source connector YAML file to connect to IBM MQ using SSL
 
 Last updated: 6 April 2025
 
@@ -57,4 +57,4 @@ spec:
     state: running
     #state: paused
     #state: stopped
-    ```
+```
