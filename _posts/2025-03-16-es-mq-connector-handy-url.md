@@ -2,13 +2,14 @@
 
 Last updated: 16 March 2025
 
-IBM has produced high quality documentation around [IBM Event Streams](https://www.ibm.com/products/event-streams).
+IBM has produced high quality documentation around [IBM Event Streams](https://www.ibm.com/products/event-streams), more specifically around [MQ source and sink connectors](https://ibm.github.io/event-automation/es/connecting/mq/), the focus of this post.
+
 
 This page contains the URLs I found most useful while learning to create my first IBM Event Streams Kafka MQ source connector.
 
 # Source and sink connector starting point
 
-## Youtube
+## YouTube
 
 If you are new to Kafka connectors like I am, I'd suggest spending a few minutes watching the youtube video [Apache Kafka 101: Kafka Connect (2023)](https://www.youtube.com/watch?v=J6adhl3wEj4). I'd actually watch all the Kafka videos from this presenter. They are awesome!
 
@@ -34,7 +35,7 @@ The rest of this post focusses on the IBM MQ to Kafka source connector only.
 
 Before reading too much, I suggest you have a quick scan of the following URLs.
 
-These URLs contain the IBM provided source and sink connectors, including the connector source code (if your are interested) together with compiled jar files.
+These URLs contain the IBM provided source and sink connectors, including the connector source code (if you're interested) together with compiled jar files.
 
 - [Kafka connect MQ source connector](https://github.com/ibm-messaging/kafka-connect-mq-source/releases/)
 
@@ -48,11 +49,11 @@ The jar files for the source connector (as of writing this post) are for the v2.
 
 - jar file without the dependencies: [kafka-connect-mq-source-2.3.0.jar](https://github.com/ibm-messaging/kafka-connect-mq-source/releases/download/v2.3.0/kafka-connect-mq-source-2.3.0.jar)
 
-*From what I have heard, this is the new location to obain the (open source) connectors.*
+*From what I have heard, this is the new location to obtain the (open source) connectors.*
 
 You may be able to obtain older source and sink connectors from [Fix Central](https://www.ibm.com/support/fixcentral/swg/selectFixes?parent=ibm%7EOther%20software&product=ibm/Other+software/IBM+Event+Automation&release=1.0.0.0&platform=All&function=all). However, I do see a comment "*Kafka Connect MQ Source old version. For new version visit https://ibm.github.io/event-automation/connectors/kc-source-ibm-mq/installation*" which suggests the location may have permanently moved.
 
-If you are interested in working from the IBM MQ perspective refer ro following URLs:
+If you are interested in working from the IBM MQ perspective refer to following URLs:
 
 - [You want to download the jar file for the IBM MQ Kafka connector](https://www.ibm.com/support/pages/you-want-download-jar-file-ibm-mq-kafka-connector). You'll need an IBM account to download this file.
 
@@ -64,7 +65,7 @@ To create a Kafka connect runtime for an IBM MQ source connector, start with the
 
 - [Install an IBM MQ source connector](https://ibm.github.io/event-automation/connectors/kc-source-ibm-mq/installation)
 
-This page contains URLs that take you to the appropriate sections to complete your acitvities. I actually found this a great starting point.
+This page contains URLs that take you to the appropriate sections to complete your activities. I actually found this a great starting point.
 
 You can happily follow that page rather than read the rest of this post, however, the below adds a few comments to highlight what I focussed on.
 

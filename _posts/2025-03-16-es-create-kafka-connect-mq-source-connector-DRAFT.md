@@ -10,7 +10,7 @@ The full IBM documentation can be found at [Install an IBM MQ **source** connect
 
 # Reason for writing this post
 
-While I find the IBM documentation perfect as reference when you have solid understanding of IBM Event Streams, I found it challenging the first time I created a Kafka Connect runtime with an associated Kafka 'source' Connector for IBM MQ.
+While I find the IBM documentation perfect as reference when you have solid understanding of IBM Event Streams, I found it challenging the first time I created a Kafka Connect runtime with an associated Kafka 'Source' Connector for IBM MQ.
 
 This guide attempts to add some clarity to the page - details that weren't clear to me while I was learning. It also describes my learning journey including problems I faced, perhaps related to my habit of not reading documentation thouroughly enough.
 
@@ -58,7 +58,7 @@ There's essentially 3 steps:
 
 The most useful URL I found was [Install an IBM MQ **source** connector](https://ibm.github.io/event-automation/connectors/kc-source-ibm-mq/installation).
 
-## Build the Kafka Connect image
+## Step 1. Build the Kafka Connect image
 
 ### My difficulties at the start
 
@@ -130,9 +130,20 @@ For the kafka-connect-mq-source-2.3.0 file, I built the image using the followin
 
 ![dependencies correct structure](../images/es/plugin-2.3.0-dependencies-all-ok.png)
 
-## Create the Kafka Connect runtime
+## Step 2. Create the Kafka Connect runtime
 
 Create the Kafka Connect runtime in OpenShift.
+
+### Secrets
+
+Prior to deploying the Kafka Connect runtime, create two secrets:
+
+- The first secret contains the user authorization keys that will be used to connect to the Kafka cluster.
+
+- The second secret contains the CA certificates used to establish a TLS connection to the Kafka cluster.
+
+#### User credential
+
 
 
 

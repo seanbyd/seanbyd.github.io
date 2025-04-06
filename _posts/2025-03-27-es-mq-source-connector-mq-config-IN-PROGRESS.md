@@ -4,6 +4,14 @@
 in progres
 
 
+
+
+
+
+
+
+
+
 Last updated: 27 March 2025
 
 This is a quick post to show how to stop, pause and start a Kafka MQ source connector.

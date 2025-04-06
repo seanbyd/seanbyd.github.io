@@ -96,10 +96,13 @@ More details can be found in [enabling exactly-once prerequisites](https://ibm.g
 
 ### Configure exactly-once in the Kafka MQ source connector
 
-Add the state queue name int the Kafka MQ source connector yaml file.
+Add the state queue name in the Kafka MQ source connector yaml file.
+
+Also add the reconnect option. For the possible values, refer to the [kafka connect mq source](https://github.com/ibm-messaging/kafka-connect-mq-source) page.
 
 ``` yaml
 mq.exactly.once.state.queue: specify-your-state-queue-name
+mq.client.reconnect.options: QMGR
 ```
 
 ``` yaml
@@ -113,12 +116,13 @@ spec:
     # For exactly-once messaging, set the state queue name.
     # Define the queued as PERSISTENT with DEFSOPT(EXCL).
     mq.exactly.once.state.queue: specify-your-state-queue-name
+    mq.client.reconnect.options: QMGR
     mq.queue.manager: your-queue-manager-name
 ```
 
 Refer to [all connector configuration settings](https://github.com/ibm-messaging/kafka-connect-mq-source?tab=readme-ov-file#configuration) for a full list of the MQ source connector properties,.
 
-### Transaction boundry
+### Transaction boundary
 
 The transaction.boundary property must be set to poll. This is the default.
 
@@ -128,7 +132,7 @@ transaction.boundary: poll (default)
 
 Refer to the [exactly-once delivery page](https://ibm.github.io/event-automation/es/connecting/mq/source/#enabling-exactly-once-delivery) for details.
 
-Also refer to the [Kafka desription of transaction boundry](https://kafka.apache.org/documentation/#sourceconnectorconfigs_transaction.boundary).
+Also refer to the [Kafka desription of transaction boundary](https://kafka.apache.org/documentation/#sourceconnectorconfigs_transaction.boundary).
 
 ## Full yaml files
 
@@ -244,6 +248,7 @@ spec:
     # For exactly-once messaging, set the state queue name.
     # Define this queue as PERSISTENT with DEFSOPT(EXCL).
     # mq.exactly.once.state.queue: MY_STATE_QUEUE_NAME
+    # mq.client.reconnect.options: QMGR
     mq.queue.manager: MY_QMGR
     mq.connection.name.list: 10.1.1.1(1414)
     # For exactly-once messaging, set the HBINT(30) on the MQ channel name.
