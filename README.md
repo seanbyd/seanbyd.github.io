@@ -18,3 +18,5 @@ The focus of this site will change over time, but for now it contains details su
 
 [IBM Event Streams](eventstreams/index.md)
 
+[Samples](samples/index.md)
+
