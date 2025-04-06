@@ -2,7 +2,7 @@
 
 Last updated: 6 April 2025
 
-```yaml
+``` yaml
 apiversion: eventstreams.ibm.com/vibeta2
 kind: KafkaConnector
 metadata:
